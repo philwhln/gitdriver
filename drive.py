@@ -97,14 +97,14 @@ class GoogleDrive(object):
             'response_type': 'code',
             }
 
-        url = '%s?%s' % ('%s/auth' % OAUTH_URI, urllib.urlencode(params))
+        url = '%s?%s' % ('%s/auth' % OAUTH_URI, urllib.parse.urlencode(params))
 
-        print 'Point your browser at the following URL and then '
-        print 'enter the authorization code at the prompt:'
+        print('Point your browser at the following URL and then ')
+        print('enter the authorization code at the prompt:')
         print
-        print url
+        print(url)
         print
-        code = raw_input('Enter code: ')
+        code = input('Enter code: ')
         self.code = code
         r = requests.post('%s/token' % OAUTH_URI, {
             'code': code,
@@ -123,14 +123,14 @@ class GoogleDrive(object):
     def store_credentials(self):
         '''Write credentials to file.'''
         with open(self.credentials, 'w') as fd:
-            fd.write(yaml.safe_dump(self.token, encoding='utf-8',
-                default_flow_style=False))
+            yaml_str = yaml.safe_dump(self.token)
+            fd.write(yaml_str)
 
     def load_credentials(self):
         '''Read credentials from file.'''
         try:
             with open(self.credentials) as fd:
-                self.token = yaml.load(fd)
+                self.token = yaml.safe_load(fd)
         except IOError:
             pass
 

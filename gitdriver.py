@@ -39,7 +39,7 @@ def main():
     md = gd.get_file_metadata(opts.docid)
 
     # Initialize the git repository.
-    print 'Create repository "%(title)s"' % md
+    print('Create repository "%(title)s"' % md)
     subprocess.call(['git','init',md['title']])
     os.chdir(md['title'])
 
@@ -58,7 +58,7 @@ def main():
 
             # Write file content into local file.
             for chunk in r.iter_content():
-                fd.write(chunk)
+                fd.write(str(chunk))
 
         # Commit changes to repository.
         subprocess.call(['git', 'add', 'content'])
